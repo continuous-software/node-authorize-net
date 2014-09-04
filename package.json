@@ -4,7 +4,7 @@
   "description": "nodejs sdk to communicate with authorize.net payement gateway",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV='test' node ./node_modules/.bin/mocha -R spec -t 20000"
+    "test": "NODE_ENV='test' node ./node_modules/.bin/mocha -R spec -t 35000"
   },
   "keywords": [
     "node",

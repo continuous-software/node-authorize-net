@@ -19,9 +19,6 @@ describe('AuthorizeNet service', function () {
     describe('authorizationCapture', function () {
         it('should submit authorizationCapture request', function (done) {
             service.authCaptureTransaction(randomAmount(), 4012888818888, 2016, 10).then(function (transaction) {
-
-                console.log(JSON.stringify(transaction));
-
                 assert.equal(transaction.transactionResponse.responseCode, '1');
                 done();
             });
@@ -197,9 +194,6 @@ describe('AuthorizeNet service', function () {
                     assert.equal(trans.transaction.responseCode, '1');
                     assert.equal(trans.transaction.transId, transId);
                     done();
-                })
-                .catch(function (err) {
-                    console.log(JSON.stringify(err));
                 });
         });
 
