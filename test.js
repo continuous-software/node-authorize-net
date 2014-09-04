@@ -19,7 +19,10 @@ describe('AuthorizeNet service', function () {
     describe('authorizationCapture', function () {
         it('should submit authorizationCapture request', function (done) {
             service.authCaptureTransaction(randomAmount(), 4012888818888, 2016, 10).then(function (transaction) {
-                assert.equal(transaction.responseCode, '1');
+
+                console.log(JSON.stringify(transaction));
+
+                assert.equal(transaction.transactionResponse.responseCode, '1');
                 done();
             });
         });
@@ -50,7 +53,7 @@ describe('AuthorizeNet service', function () {
     describe('authorization only', function () {
         it('should submit authorization only request', function (done) {
             service.authOnlyTransaction(randomAmount(), 4007000000027, 2016, 2).then(function (transaction) {
-                assert.equal(transaction.responseCode, '1');
+                assert.equal(transaction.transactionResponse.responseCode, '1');
                 done();
             });
         });
@@ -85,10 +88,10 @@ describe('AuthorizeNet service', function () {
             var amount = randomAmount();
             service.authOnlyTransaction(amount, 4007000000027, 2016, 2)
                 .then(function (transaction) {
-                    return service.priorAuthCaptureTransaction(transaction.transId, amount);
+                    return service.priorAuthCaptureTransaction(transaction.transactionResponse.transId, amount);
                 })
                 .then(function (trans) {
-                    assert.equal(trans.responseCode, '1');
+                    assert.equal(trans.transactionResponse.responseCode, '1');
                     done();
                 });
         });
@@ -123,7 +126,7 @@ describe('AuthorizeNet service', function () {
         });
 
         it('should reject the promise when web service send an error code', function (done) {
-            service.refundTransaction(666, 100,4007000000027,2016,1).then(function () {
+            service.refundTransaction(666, 100, 4007000000027, 2016, 1).then(function () {
                 throw new Error('should not get here');
             }, function (rejection) {
                 assert(rejection instanceof AuthorizeNetError);
@@ -149,10 +152,10 @@ describe('AuthorizeNet service', function () {
 
             service.authOnlyTransaction(randomAmount(), 4007000000027, 2016, 2)
                 .then(function (transaction) {
-                    return service.voidTransaction(transaction.transId);
+                    return service.voidTransaction(transaction.transactionResponse.transId);
                 })
                 .then(function (trans) {
-                    assert.equal(trans.responseCode, '1');
+                    assert.equal(trans.transactionResponse.responseCode, '1');
                     done();
                 });
         });
@@ -179,5 +182,47 @@ describe('AuthorizeNet service', function () {
         });
     });
 
+    describe('get transaction detail', function () {
 
+        it('should get transaction details', function (done) {
+
+            var amount = randomAmount();
+            var transId;
+            service.authOnlyTransaction(amount, 4007000000027, 2016, 2)
+                .then(function (transaction) {
+                    transId = transaction.transactionResponse.transId;
+                    return service.getTransactionDetailsRequest(transId);
+                })
+                .then(function (trans) {
+                    assert.equal(trans.transaction.responseCode, '1');
+                    assert.equal(trans.transaction.transId, transId);
+                    done();
+                })
+                .catch(function (err) {
+                    console.log(JSON.stringify(err));
+                });
+        });
+
+        it('should reject the promise when web service return error code', function (done) {
+            service.getTransactionDetailsRequest(666).then(function () {
+                throw new Error('should not get here');
+            }, function (rejection) {
+                assert(rejection instanceof AuthorizeNetError);
+                assert.equal(rejection.messages.message.code, 'E00040');
+                assert.equal(rejection.messages.message.text, 'The record cannot be found.');
+                done();
+            });
+        });
+
+        it('should reject the promise if any error happens', function (done) {
+            service.getTransactionDetailsRequest(undefined).then(function () {
+                throw new Error('should not get here');
+            }, function (rejection) {
+                assert(rejection instanceof assert.AssertionError);
+                assert.equal(rejection.message, 'refTransId is required');
+                done();
+            });
+        });
+
+    });
 });
