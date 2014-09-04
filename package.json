@@ -15,6 +15,7 @@
   "author": "laurent34azerty@gmail.com",
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^2.3.2",
     "json2xml": "^0.1.1",
     "lodash": "^2.4.1",
     "request": "^2.40.0",
