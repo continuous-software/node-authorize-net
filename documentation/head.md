@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.org/continuous-software/node-authorize-net.svg?branch=master)](https://travis-ci.org/continuous-software/node-authorize-net)
+[![build status](https://travis-ci.org/continuous-software/node-authorize-net.svg?branch=master)](https://travis-ci.org/continuous-software/node-authorize-net)
 
 # node-authorize-net
 
-A nodejs sdk to communicate with [Authorize.net](http://www.authorize.net/) payment gateway.
+a nodejs sdk to communicate with [authorize.net](http://www.authorize.net/) payment gateway.
 
 ## installation
 
@@ -12,4 +12,4 @@ A nodejs sdk to communicate with [Authorize.net](http://www.authorize.net/) paym
 
 `npm test`
 
-## API
+## api

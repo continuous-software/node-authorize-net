@@ -1,5 +1,4 @@
-Global
-===
+###Global
 
 
 
@@ -7,8 +6,8 @@ Global
 
 ---
 
-AuthorizeNet
-===
+### AuthorizeNet
+
 
 
 AuthorizeNet.authCaptureTransaction(amount, cardNumber, expirationYear, expirationMonth, other) 
