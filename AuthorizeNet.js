@@ -59,6 +59,11 @@ function generateRequestConfiguration(service, transactionRequest) {
     }
 }
 
+/**
+ * @param apiLogin
+ * @param transactionKey
+ * @constructor
+ */
 function AuthorizeNet(apiLogin, transactionKey) {
 
     assert(apiLogin, 'API login is required');
@@ -74,8 +79,8 @@ function AuthorizeNet(apiLogin, transactionKey) {
 /**
  *<p> submit a transaction request type authCaptureTransaction. </p>
  * <ul>
- *  <li>will resolve with an json object representing the `transactionResponse` xml field of the web service response it the resultCode is "Ok"</li>
- *  <li>will reject with an instance of AuthorizationNetError whose properties will be json version of the xml field `createTransactionResponse` if the resultCode is not "Ok"</li>
+ *  <li>will resolve with an json object representing the <em>transactionResponse</em> xml field of the web service response it the resultCode is <code>"Ok"</code></li>
+ *  <li>will reject with an instance of AuthorizationNetError whose properties will be json version of the xml field <em>createTransactionResponse</em> if the resultCode is not <code>"Ok"</code></li>
  *  <li>will reject with an instance of HttpError if the http status code of the response is higher or equal to 400</li>
  *  <li>will reject with an instance of AssertionError if one of the mandatory field is falsy</li>
  *  <li>will reject with an instance of Error if any other error occurs (parsing, etc)</li>
@@ -118,9 +123,9 @@ AuthorizeNet.prototype.authCaptureTransaction = function authCaptureTransaction(
 
 /**
  *<p> submit a transaction request type authOnlyTransaction. </p>
- * <ul>
- *  <li>will resolve with an json object representing the `transactionResponse` xml field of the web service response it the resultCode is "Ok"</li>
- *  <li>will reject with an instance of AuthorizationNetError whose properties will be json version of the xml field `createTransactionResponse` if the resultCode is not "Ok"</li>
+ *  <ul>
+ *  <li>will resolve with an json object representing the <em>transactionResponse</em> xml field of the web service response it the resultCode is <code>"Ok"</code></li>
+ *  <li>will reject with an instance of AuthorizationNetError whose properties will be json version of the xml field <em>createTransactionResponse</em> if the resultCode is not <code>"Ok"</code></li>
  *  <li>will reject with an instance of HttpError if the http status code of the response is higher or equal to 400</li>
  *  <li>will reject with an instance of AssertionError if one of the mandatory field is falsy</li>
  *  <li>will reject with an instance of Error if any other error occurs (parsing, etc)</li>
@@ -163,9 +168,9 @@ AuthorizeNet.prototype.authOnlyTransaction = function authOnlyTransaction(amount
 
 /**
  *<p> submit a transaction request type priorAuthCaptureTransaction. </p>
- * <ul>
- *  <li>will resolve with an json object representing the `transactionResponse` xml field of the web service response it the resultCode is "Ok"</li>
- *  <li>will reject with an instance of AuthorizationNetError whose properties will be json version of the xml field `createTransactionResponse` if the resultCode is not "Ok"</li>
+ *  <ul>
+ *  <li>will resolve with an json object representing the <em>transactionResponse</em> xml field of the web service response it the resultCode is <code>"Ok"</code></li>
+ *  <li>will reject with an instance of AuthorizationNetError whose properties will be json version of the xml field <em>createTransactionResponse</em> if the resultCode is not <code>"Ok"</code></li>
  *  <li>will reject with an instance of HttpError if the http status code of the response is higher or equal to 400</li>
  *  <li>will reject with an instance of AssertionError if one of the mandatory field is falsy</li>
  *  <li>will reject with an instance of Error if any other error occurs (parsing, etc)</li>
@@ -175,9 +180,7 @@ AuthorizeNet.prototype.authOnlyTransaction = function authOnlyTransaction(amount
  * @param {object} [other] - a json object you want to mix with the transactionRequest field before transformation into xml. Note it will override already assigned properties
  * @returns {Promise}
  */
-AuthorizeNet.prototype.captureOnlyTransaction = function captureOnlyTransaction(refTransId, amount, other) {
-
-    //priorAuthCaptureTransaction
+AuthorizeNet.prototype.priorAuthCaptureTransaction = function captureOnlyTransaction(refTransId, amount, other) {
 
     var self = this;
 
@@ -199,20 +202,70 @@ AuthorizeNet.prototype.captureOnlyTransaction = function captureOnlyTransaction(
 
         request.post(generateRequestConfiguration(self, transactionRequest), requestCallBack.bind(this, resolve, reject));
     });
-
-
 };
 
-AuthorizeNet.prototype.refundTransaction = function refundTransaction() {
+AuthorizeNet.prototype.refundTransaction = function refundTransaction(refTransId, amount, cardNumber, expirationYear, expirationMonth, other) {
+    var self = this;
 
+    return new Promise(function (resolve, reject) {
+
+        assert(refTransId, 'refTransId is required');
+        assert(amount, 'amount is required');
+        assert(cardNumber, 'cardNumber is required');
+        assert(expirationYear, 'expirationYear is required');
+        assert(expirationMonth, 'expirationMonth is required');
+
+        var creditCard = { cardNumber: cardNumber, expirationDate: expirationYear.toString() + '-' + expirationMonth.toString() };
+        var transactionRequest = {
+            merchantAuthentication: self.merchantInfo,
+            transactionRequest: {
+                transactionType: 'refundTransaction',
+                amount: amount,
+                refTransId: refTransId,
+                payment: {
+                    creditCard: creditCard
+                }
+            }
+        };
+
+        _.assign(transactionRequest, other || {});
+
+        request.post(generateRequestConfiguration(self, transactionRequest), requestCallBack.bind(self, resolve, reject));
+    });
 };
 
-AuthorizeNet.prototype.priorAuthCaptureTransaction = function priorAuthCaptureTransaction() {
+/**
+ *<p> submit a transaction request type voidTransaction. </p>
+ *  <ul>
+ *  <li>will resolve with an json object representing the <em>transactionResponse</em> xml field of the web service response it the resultCode is <code>"Ok"</code></li>
+ *  <li>will reject with an instance of AuthorizationNetError whose properties will be json version of the xml field <em>createTransactionResponse</em> if the resultCode is not <code>"Ok"</code></li>
+ *  <li>will reject with an instance of HttpError if the http status code of the response is higher or equal to 400</li>
+ *  <li>will reject with an instance of AssertionError if one of the mandatory field is falsy</li>
+ *  <li>will reject with an instance of Error if any other error occurs (parsing, etc)</li>
+ * </ul>
+ * @param {String|number} refTransId - the transaction reference id (you want to void) returned by the web service.
+ * @param {object} [other] - a json object you want to mix with the transactionRequest field before transformation into xml. Note it will override already assigned properties
+ * @returns {Promise}
+ */
+AuthorizeNet.prototype.voidTransaction = function voidTransaction(refTransId, other) {
+    var self = this;
 
-};
+    return new Promise(function (resolve, reject) {
 
-AuthorizeNet.prototype.voidTransaction = function voidTransaction() {
+        assert(refTransId, 'refTransId is required');
 
+        var transactionRequest = {
+            merchantAuthentication: self.merchantInfo,
+            transactionRequest: {
+                transactionType: 'voidTransaction',
+                refTransId: refTransId
+            }
+        };
+
+        _.assign(transactionRequest, other || {});
+
+        request.post(generateRequestConfiguration(self, transactionRequest), requestCallBack.bind(this, resolve, reject));
+    });
 };
 
 module.exports = AuthorizeNet;
