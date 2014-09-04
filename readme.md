@@ -12,6 +12,19 @@ a nodejs sdk to communicate with [authorize.net](http://www.authorize.net/) paym
 
 `npm test`
 
+## usage
+
+```javascript
+    var service=require('node-authorize-net')(apiloging,key);
+
+    service.authCaptureTransaction(randomAmount(), 4012888818888, 2016, 10).then(function (transaction) {
+
+        console.log(JSON.stringify(transaction));
+
+        assert.equal(transaction.transactionResponse.responseCode, '1');
+    });
+```
+
 ## api
 
 ###Global
