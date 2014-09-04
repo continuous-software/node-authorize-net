@@ -225,4 +225,15 @@ describe('AuthorizeNet service', function () {
         });
 
     });
+
+    describe('get Unsettled transaction list', function () {
+
+        it('should get the list of unsettled transaction list', function (done) {
+            service.getUnsettledTransactionListRequest().then(function (response) {
+                assert(response.transactions, 'transactions field should be defined');
+                done();
+            });
+        });
+
+    });
 });
