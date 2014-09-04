@@ -10,8 +10,8 @@
 
 
 
-AuthorizeNet.authCaptureTransaction(amount, cardNumber, expirationYear, expirationMonth, other) 
------------------------------
+#### AuthorizeNet.authCaptureTransaction(amount, cardNumber, expirationYear, expirationMonth, other) 
+
 <p> submit a transaction request type authCaptureTransaction. </p>
 <ul>
  <li>will resolve with an json object representing the <em>transactionResponse</em> xml field of the web service response it the resultCode is <code>"Ok"</code></li>
@@ -34,8 +34,8 @@ AuthorizeNet.authCaptureTransaction(amount, cardNumber, expirationYear, expirati
 **other**: object, a json object you want to mix with the transactionRequest field before transformation into xml. Note it will override already assigned properties
 
 **Returns**: Promise, 
-AuthorizeNet.authOnlyTransaction(amount, cardNumber, expirationYear, expirationMonth, other) 
------------------------------
+#### AuthorizeNet.authOnlyTransaction(amount, cardNumber, expirationYear, expirationMonth, other) 
+
 <p> submit a transaction request type authOnlyTransaction. </p>
  <ul>
  <li>will resolve with an json object representing the <em>transactionResponse</em> xml field of the web service response it the resultCode is <code>"Ok"</code></li>
@@ -58,8 +58,8 @@ AuthorizeNet.authOnlyTransaction(amount, cardNumber, expirationYear, expirationM
 **other**: object, a json object you want to mix with the transactionRequest field before transformation into xml. Note it will override already assigned properties
 
 **Returns**: Promise, 
-AuthorizeNet.priorAuthCaptureTransaction(refTransId, amount, other) 
------------------------------
+#### AuthorizeNet.priorAuthCaptureTransaction(refTransId, amount, other) 
+
 <p> submit a transaction request type priorAuthCaptureTransaction. </p>
  <ul>
  <li>will resolve with an json object representing the <em>transactionResponse</em> xml field of the web service response it the resultCode is <code>"Ok"</code></li>
@@ -78,8 +78,8 @@ AuthorizeNet.priorAuthCaptureTransaction(refTransId, amount, other)
 **other**: object, a json object you want to mix with the transactionRequest field before transformation into xml. Note it will override already assigned properties
 
 **Returns**: Promise, 
-AuthorizeNet.voidTransaction(refTransId, other) 
------------------------------
+#### AuthorizeNet.voidTransaction(refTransId, other) 
+
 <p> submit a transaction request type voidTransaction. </p>
  <ul>
  <li>will resolve with an json object representing the <em>transactionResponse</em> xml field of the web service response it the resultCode is <code>"Ok"</code></li>
