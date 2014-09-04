@@ -1,0 +1,29 @@
+{
+  "name": "node-authorize-net",
+  "version": "0.1.0",
+  "description": "nodejs sdk to communicate with authorize.net payement gateway",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV='test' node ./node_modules/.bin/mocha -R spec -t 20000"
+  },
+  "keywords": [
+    "node",
+    "authorize.net",
+    "payement",
+    "gateway"
+  ],
+  "author": "laurent34azerty@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "json2xml": "^0.1.1",
+    "lodash": "^2.4.1",
+    "request": "^2.40.0",
+    "xml2json": "^0.5.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.7",
+    "gulp-concat": "^2.3.5",
+    "jsdox": "^0.4.2",
+    "mocha": "^1.21.4"
+  }
+}
