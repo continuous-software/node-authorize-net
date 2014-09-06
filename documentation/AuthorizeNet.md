@@ -27,9 +27,9 @@
 
 **cardNumber**: string | number, the card number used for the transaction
 
-**expirationYear**: number, a four digits number for the expiration year of the card
+**expirationYear**: string | number, a four digits number for the expiration year of the card
 
-**expirationMonth**: one or two digit for the expiration month of the card
+**expirationMonth**: string | number, one or two digit for the expiration month of the card
 
 **other**: object, a json object you want to mix with the transactionRequest field before transformation into xml. Note it will override already assigned properties
 

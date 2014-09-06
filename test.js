@@ -1,7 +1,7 @@
 var conf = require('./config.js');
 var auth = require('./index.js');
 var assert = require('assert');
-var AuthorizeNetError = require('./errors.js').AuthorizeNetError;
+var AuthorizeNetError = require('./lib/errors.js').AuthorizeNetError;
 
 describe('AuthorizeNet service', function () {
 
@@ -18,7 +18,7 @@ describe('AuthorizeNet service', function () {
 
     describe('authorizationCapture', function () {
         it('should submit authorizationCapture request', function (done) {
-            service.authCaptureTransaction(randomAmount(), 4012888818888, 2016, 10).then(function (transaction) {
+            service.authCaptureTransaction(randomAmount(), 4012888818888, 2016, 10, {transactionRequest: {payment: {creditCard: {cardCode: 999}}}}).then(function (transaction) {
                 assert.equal(transaction.transactionResponse.responseCode, '1');
                 done();
             });

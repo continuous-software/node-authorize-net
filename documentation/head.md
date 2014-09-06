@@ -14,13 +14,16 @@ a nodejs sdk to communicate with [authorize.net](http://www.authorize.net/) paym
 
 ## usage
 
+1. create a service by passing your apiLogin and your transaction key
+2. You can then call any method listed on the api. These methods return Promises. See API documentation for further details
+
 ```javascript
     var service=require('node-authorize-net')(apiloging,key);
 
-    service.authCaptureTransaction(randomAmount(), 4012888818888, 2016, 10).then(function (transaction) {
-
-        console.log(JSON.stringify(transaction));
-
+    service.authCaptureTransaction(amount, cardNumber, expirationYear, expirationMonth).then(function (transaction) {
+        
+        //process the response
+        
         assert.equal(transaction.transactionResponse.responseCode, '1');
     });
 ```
