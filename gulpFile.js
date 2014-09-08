@@ -3,7 +3,7 @@ var jsdox = require('jsdox');
 var concat = require('gulp-concat');
 
 gulp.task('documentation', function (done) {
-    jsdox.generateForDir('./AuthorizeNet.js', 'documentation', 'documentation/template', done);
+    jsdox.generateForDir('./lib/AuthorizeNet.js', 'documentation', 'documentation/template', done);
 });
 
 gulp.task('readme', ['documentation'], function () {

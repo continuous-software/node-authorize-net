@@ -17,7 +17,15 @@ describe('AuthorizeNet service', function () {
     });
 
     describe('authorizationCapture', function () {
+
         it('should submit authorizationCapture request', function (done) {
+            service.authCaptureTransaction(randomAmount(), 4012888818888, 2017, 1).then(function (transaction) {
+                assert.equal(transaction.transactionResponse.responseCode, '1');
+                done();
+            });
+        });
+
+        it('should submit authorizationCapture request with some extra params', function (done) {
             service.authCaptureTransaction(randomAmount(), 4012888818888, 2016, 10, {transactionRequest: {payment: {creditCard: {cardCode: 999}}}}).then(function (transaction) {
                 assert.equal(transaction.transactionResponse.responseCode, '1');
                 done();
@@ -48,8 +56,16 @@ describe('AuthorizeNet service', function () {
     });
 
     describe('authorization only', function () {
+
         it('should submit authorization only request', function (done) {
             service.authOnlyTransaction(randomAmount(), 4007000000027, 2016, 2).then(function (transaction) {
+                assert.equal(transaction.transactionResponse.responseCode, '1');
+                done();
+            });
+        });
+
+        it('should submit authorization only request with extra params', function (done) {
+            service.authOnlyTransaction(randomAmount(), 4007000000027, 2017, 11, {transactionRequest: {payment: {creditCard: {cardCode: 666}}}}).then(function (transaction) {
                 assert.equal(transaction.transactionResponse.responseCode, '1');
                 done();
             });
@@ -188,7 +204,7 @@ describe('AuthorizeNet service', function () {
             service.authOnlyTransaction(amount, 4007000000027, 2016, 2)
                 .then(function (transaction) {
                     transId = transaction.transactionResponse.transId;
-                    return service.getTransactionDetailsRequest(transId);
+                    return service.getTransactionDetails(transId);
                 })
                 .then(function (trans) {
                     assert.equal(trans.transaction.responseCode, '1');
@@ -198,7 +214,7 @@ describe('AuthorizeNet service', function () {
         });
 
         it('should reject the promise when web service return error code', function (done) {
-            service.getTransactionDetailsRequest(666).then(function () {
+            service.getTransactionDetails(666).then(function () {
                 throw new Error('should not get here');
             }, function (rejection) {
                 assert(rejection instanceof AuthorizeNetError);
@@ -209,7 +225,7 @@ describe('AuthorizeNet service', function () {
         });
 
         it('should reject the promise if any error happens', function (done) {
-            service.getTransactionDetailsRequest(undefined).then(function () {
+            service.getTransactionDetails(undefined).then(function () {
                 throw new Error('should not get here');
             }, function (rejection) {
                 assert(rejection instanceof assert.AssertionError);
@@ -223,11 +239,45 @@ describe('AuthorizeNet service', function () {
     describe('get Unsettled transaction list', function () {
 
         it('should get the list of unsettled transaction list', function (done) {
-            service.getUnsettledTransactionListRequest().then(function (response) {
+            service.getUnsettledTransactionList().then(function (response) {
                 assert(response.transactions, 'transactions field should be defined');
                 done();
             });
         });
 
+    });
+
+    describe('get settled batch list', function () {
+
+        it('should get the list of batched list based on a window of time', function (done) {
+            service.getSettledBatchList(true, new Date(Date.now() - 7 * 24 * 3600 * 1000), new Date()).then(function (response) {
+                assert(response.batchList, 'batchList should be defined');
+                done();
+            });
+        });
+
+    });
+
+    describe('get batch statistics', function () {
+        it('should get the batch statistics', function (done) {
+            service.getSettledBatchList(true, new Date(Date.now() - 7 * 24 * 3600 * 1000), new Date()).then(function (response) {
+                assert(response.batchList, 'batchList should be defined');
+                return service.getBatchStatistics(response.batchList.batch[0].batchId);
+            })
+                .then(function (response) {
+                    assert(response.batch, 'batch should be defined');
+                    done();
+                });
+        });
+
+        it('should reject the promise if any error happens', function (done) {
+            service.getBatchStatistics().then(function () {
+                throw new Error('should not get here');
+            }, function (rejection) {
+                assert(rejection instanceof assert.AssertionError);
+                assert.equal(rejection.message, 'batchId is mandatory');
+                done();
+            });
+        });
     });
 });
