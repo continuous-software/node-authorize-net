@@ -7,7 +7,6 @@
         "test": "NODE_ENV='test' node ./node_modules/.bin/mocha -R spec -t 35000"
     },
     "keywords": [
-        "node",
         "authorize.net",
         "payement",
         "gateway"
