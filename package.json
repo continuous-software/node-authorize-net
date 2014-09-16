@@ -1,6 +1,6 @@
 {
     "name": "node-authorize-net",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "nodejs sdk to communicate with authorize.net payement gateway",
     "main": "index.js",
     "scripts": {

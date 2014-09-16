@@ -26,7 +26,7 @@ describe('AuthorizeNet service', function () {
         });
 
         it('should submit authorizationCapture request with some extra params', function (done) {
-            service.authCaptureTransaction(randomAmount(), 4012888818888, 2016, 10, {transactionRequest: {payment: {creditCard: {cardCode: 999}}}}).then(function (transaction) {
+            service.authCaptureTransaction(randomAmount(), 4012888818888, 2016, 10, {transactionRequest: {payment: {creditCard: {cardCode: 999}}, billTo: {firstName: 'bob', lastName: 'Eponge'}}}).then(function (transaction) {
                 assert.equal(transaction.transactionResponse.responseCode, '1');
                 done();
             });
