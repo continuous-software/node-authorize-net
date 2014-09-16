@@ -1,21 +1,19 @@
+![node-authorize-net](http://ignitiondeck.com/id/wp-content/uploads/2013/08/authorize-net.png)
+
 [![build status](https://travis-ci.org/continuous-software/node-authorize-net.svg?branch=master)](https://travis-ci.org/continuous-software/node-authorize-net)
 
-# node-authorize-net
-
-a nodejs sdk to communicate with [authorize.net](http://www.authorize.net/) payment gateway.
-
-## installation
+## Installation
 
 `npm install node-authorize-net`
 
-## test
+## Test
 
 `npm test`
 
-## usage
+## Usage
 
-1. create a service by passing your apiLogin and your transaction key
-2. You can then call any method listed on the api. These methods return Promises. See API documentation for further details
+1. Create a service by passing your apiLogin and your transaction key.
+2. You can then call any method listed on the api. These methods return Promises. See API documentation for further details.
 
 ```javascript
     var service=require('node-authorize-net')(apiloging,key);
@@ -28,7 +26,7 @@ a nodejs sdk to communicate with [authorize.net](http://www.authorize.net/) paym
     });
 ```
 
-## api
+## API
 
 ###Global
 
