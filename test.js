@@ -106,6 +106,9 @@ describe('AuthorizeNet service', function () {
                 .then(function (trans) {
                     assert.equal(trans.transactionResponse.responseCode, '1');
                     done();
+                })
+                .catch(function (err) {
+                    console.log(err);
                 });
         });
 
@@ -262,7 +265,8 @@ describe('AuthorizeNet service', function () {
         it('should get the batch statistics', function (done) {
             service.getSettledBatchList(true, new Date(Date.now() - 7 * 24 * 3600 * 1000), new Date()).then(function (response) {
                 assert(response.batchList, 'batchList should be defined');
-                return service.getBatchStatistics(response.batchList.batch[0].batchId);
+                var batchId = response.batchList.batch.length ? response.batchList.batch[0].batchId : response.batchList.batch.batchId;
+                return service.getBatchStatistics(batchId);
             })
                 .then(function (response) {
                     assert(response.batch, 'batch should be defined');
