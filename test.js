@@ -26,7 +26,12 @@ describe('AuthorizeNet service', function () {
         });
 
         it('should submit authorizationCapture request with some extra params', function (done) {
-            service.authCaptureTransaction(randomAmount(), 4012888818888, 2016, 10, {transactionRequest: {payment: {creditCard: {cardCode: 999}}, billTo: {firstName: 'bob', lastName: 'Eponge'}}}).then(function (transaction) {
+            service.authCaptureTransaction(randomAmount(), 4012888818888, 2016, 10, {
+                transactionRequest: {
+                    payment: {creditCard: {cardCode: 999}},
+                    billTo: {firstName: 'bob', lastName: 'Eponge'}
+                }
+            }).then(function (transaction) {
                 assert.equal(transaction.transactionResponse.responseCode, '1');
                 done();
             });
@@ -282,6 +287,21 @@ describe('AuthorizeNet service', function () {
                 assert.equal(rejection.message, 'batchId is mandatory');
                 done();
             });
+        });
+    });
+
+    describe('get transactions list', function () {
+
+        it('should get the transaction list of a given batch', function (done) {
+            service.getSettledBatchList(true, new Date(Date.now() - 7 * 24 * 3600 * 1000), new Date()).then(function (response) {
+                assert(response.batchList, 'batchList should be defined');
+                var batchId = response.batchList.batch.length ? response.batchList.batch[0].batchId : response.batchList.batch.batchId;
+                return service.getTransactionList(batchId);
+            })
+                .then(function (response) {
+                    assert(response.transactions.transaction, 'it should have a list of transactions');
+                    done();
+                });
         });
     });
 });
