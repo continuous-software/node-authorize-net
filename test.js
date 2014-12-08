@@ -22,20 +22,51 @@ describe('AuthorizeNet service', function () {
             service.authCaptureTransaction(randomAmount(), 4012888818888, 2017, 1).then(function (transaction) {
                 assert.equal(transaction.transactionResponse.responseCode, '1');
                 done();
-            });
+            }, function(rejection){
+                done(rejection);
+            })
         });
 
         it('should submit authorizationCapture request with some extra params', function (done) {
             service.authCaptureTransaction(randomAmount(), 4012888818888, 2016, 10, {
                 transactionRequest: {
                     payment: {creditCard: {cardCode: 999}},
-                    billTo: {firstName: 'bob', lastName: 'Eponge'}
+                    lineItems : [
+                        {lineItem: {itemId:1, name: 'Test Item', quantity:2, unitPrice: 4.99}},
+                        {lineItem: {itemId:2, name: 'Test Item2', quantity:3, unitPrice: 5.99}}
+                    ],
+                    tax : {
+                      amount: 2.13,
+                      name: 'city tax',
+                      description: 'some text here'
+                    },
+                    duty : {
+                      amount: 1.21,
+                      name: 'duty name',
+                      description: 'duty description'
+                    },
+                    shipping : {
+                      amount: 12.99,
+                      name: '2 Day Shipping',
+                      description: 'UPS'
+                    },
+                    poNumber : 'abcd-1234',
+                    billTo: {firstName: 'bob', lastName: 'Eponge'},
+                    customer : {
+                      id : 12345678
+                    },
+                    userFields : [
+                        {userField: {name: 'cartId', value: 'xyx1234'}},
+                        {userField: {name: 'discountCode', value: 'xcxcx'}}
+                    ]
                 }
             }).then(function (transaction) {
                 assert.equal(transaction.transactionResponse.responseCode, '1');
                 done();
+            }, function(rejection){
+                done(JSON.stringify(rejection));
             });
-        });
+          });
 
         it('should reject the promise when web service send an error code', function (done) {
             service.authCaptureTransaction(randomAmount(), 234234, 2016, 10).then(function () {
@@ -66,14 +97,18 @@ describe('AuthorizeNet service', function () {
             service.authOnlyTransaction(randomAmount(), 4007000000027, 2016, 2).then(function (transaction) {
                 assert.equal(transaction.transactionResponse.responseCode, '1');
                 done();
-            });
+            }).catch(function(err){
+              done(err);
+            })
         });
 
         it('should submit authorization only request with extra params', function (done) {
             service.authOnlyTransaction(randomAmount(), 4007000000027, 2017, 11, {transactionRequest: {payment: {creditCard: {cardCode: 666}}}}).then(function (transaction) {
                 assert.equal(transaction.transactionResponse.responseCode, '1');
                 done();
-            });
+            }).catch(function(err){
+              done(err);
+            })
         });
 
         it('should reject the promise when web service send an error code', function (done) {
@@ -114,6 +149,7 @@ describe('AuthorizeNet service', function () {
                 })
                 .catch(function (err) {
                     console.log(err);
+                    done(err);
                 });
         });
 
@@ -178,7 +214,10 @@ describe('AuthorizeNet service', function () {
                 .then(function (trans) {
                     assert.equal(trans.transactionResponse.responseCode, '1');
                     done();
-                });
+                })
+                .catch(function(err){
+                  done(err);
+                })
         });
 
         it('should reject the promise when web service send an error code', function (done) {
@@ -218,7 +257,10 @@ describe('AuthorizeNet service', function () {
                     assert.equal(trans.transaction.responseCode, '1');
                     assert.equal(trans.transaction.transId, transId);
                     done();
-                });
+                })
+                .catch(function(err){
+                  done(err);
+                })
         });
 
         it('should reject the promise when web service return error code', function (done) {
@@ -250,7 +292,9 @@ describe('AuthorizeNet service', function () {
             service.getUnsettledTransactionList().then(function (response) {
                 assert(response.transactions, 'transactions field should be defined');
                 done();
-            });
+            }).catch(function(err){
+              done(err);
+            })
         });
 
     });
@@ -261,7 +305,9 @@ describe('AuthorizeNet service', function () {
             service.getSettledBatchList(true, new Date(Date.now() - 7 * 24 * 3600 * 1000), new Date()).then(function (response) {
                 assert(response.batchList, 'batchList should be defined');
                 done();
-            });
+            }).catch(function(err){
+              done(err);
+            })
         });
 
     });
@@ -273,10 +319,12 @@ describe('AuthorizeNet service', function () {
                 var batchId = response.batchList.batch.length ? response.batchList.batch[0].batchId : response.batchList.batch.batchId;
                 return service.getBatchStatistics(batchId);
             })
-                .then(function (response) {
-                    assert(response.batch, 'batch should be defined');
-                    done();
-                });
+            .then(function (response) {
+                assert(response.batch, 'batch should be defined');
+                done();
+            }).catch(function(err){
+              done(err);
+            })
         });
 
         it('should reject the promise if any error happens', function (done) {
@@ -298,10 +346,13 @@ describe('AuthorizeNet service', function () {
                 var batchId = response.batchList.batch.length ? response.batchList.batch[0].batchId : response.batchList.batch.batchId;
                 return service.getTransactionList(batchId);
             })
-                .then(function (response) {
-                    assert(response.transactions.transaction, 'it should have a list of transactions');
-                    done();
-                });
+            .then(function (response) {
+                assert(response.transactions.transaction, 'it should have a list of transactions');
+                done();
+            }).catch(function(err){
+              done(err);
+            })
         });
-    });
+    }); 
+
 });
