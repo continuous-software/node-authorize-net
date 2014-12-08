@@ -108,6 +108,25 @@
 **other**: object, a json object you want to mix with the transactionRequest field before transformation into xml. Note it will override already assigned properties
 
 **Returns**: Promise, 
+#### refundTransaction(refTransId, amount, cardNumber, expirationYear, expirationMonth, other) 
+
+Refund an already settled transaction
+
+**Parameters**
+
+**refTransId**: a reference to the transaction to refund
+
+**amount**: the amount to refund
+
+**cardNumber**: the card number used to process the transaction
+
+**expirationYear**: the expiration year of the card used to process the transaction
+
+**expirationMonth**: the expiration month of the transaction card used to process the transaction
+
+**other**: some other fields to merge with the request
+
+**Returns**: Promise, 
 #### voidTransaction(refTransId, other) 
 
 <p> submit a transaction request type voidTransaction. </p>
