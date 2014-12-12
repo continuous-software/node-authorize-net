@@ -1,33 +1,33 @@
 {
-    "name": "node-authorize-net",
-    "version": "0.0.5",
-    "description": "nodejs sdk to communicate with authorize.net payement gateway",
-    "main": "index.js",
-    "scripts": {
-        "test": "NODE_ENV='test' node ./node_modules/.bin/mocha -R spec -t 35000"
-    },
-    "keywords": [
-        "authorize.net",
-        "payement",
-        "gateway"
-    ],
-    "author": "laurent34azerty@gmail.com",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/continuous-software/node-authorize-net.git"
-    },
-    "dependencies": {
-        "bluebird": "^2.3.2",
-        "json2xml": "^0.1.1",
-        "lodash": "^2.4.1",
-        "request": "^2.40.0",
-        "xml2json": "^0.5.1"
-    },
-    "devDependencies": {
-        "gulp": "^3.8.7",
-        "gulp-concat": "^2.3.5",
-        "jsdox": "^0.4.2",
-        "mocha": "^1.21.4"
-    }
+  "name": "authorize-net",
+  "version": "1.0.0",
+  "description": "Node.js SDK for Authorize.net paymenet gateway.",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV='test' node ./node_modules/.bin/mocha ./test/ -R spec -t 35000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/continuous-software/node-authorize-net.git"
+  },
+  "keywords": [
+    "authorize.net",
+    "gateway",
+    "payment",
+    "42-cent"
+  ],
+  "author": "Laurent Renard <laurent@continuous.in.th>",
+  "license": "MIT",
+  "dependencies": {
+    "42-cent-base": "^0.8.0",
+    "42-cent-util": "^1.0.0",
+    "bluebird": "^2.3.11",
+    "json2xml": "^0.1.1",
+    "request": "^2.47.0",
+    "xml2json": "^0.5.1"
+  },
+  "devDependencies": {
+    "42-cent-model": "^1.0.0",
+    "mocha": "^1.21.4"
+  }
 }

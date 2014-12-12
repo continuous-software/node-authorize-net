@@ -1,5 +1,5 @@
-var Authorize = require('./lib/AuthorizeNet.js');
+var AuthorizeGateway = require('./lib/AuthorizeNetGateway.js');
 
-module.exports = function authorizeFactory(api,transactionKey) {
-    return new Authorize(api,transactionKey);
+module.exports = function gatewayFactory(conf) {
+    return new AuthorizeGateway(conf);
 };
