@@ -4,7 +4,7 @@
 
 ## Installation
 
-`npm install node-authorize-net`
+`npm install -s authorize-net`
 
 ## Usage
 
