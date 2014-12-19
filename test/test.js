@@ -12,7 +12,7 @@ describe('AuthorizeNet service', function () {
 
   //to avoid duplicate transaction we change the amount
   function randomAmount() {
-    return Math.ceil(Math.random() * 100);
+    return Math.ceil(Math.random() * 300);
   }
 
   beforeEach(function () {
@@ -293,7 +293,7 @@ describe('AuthorizeNet service', function () {
 
     it('should create a subscription without trial period', function (done) {
       var subscription = new SubscriptionPlan({
-        amount: Math.floor(Math.random() * 100)
+        amount: Math.floor(Math.random() * 300)
       })
         .withIterationCount('12')
         .withPeriodLength(1)
@@ -368,7 +368,7 @@ describe('AuthorizeNet service', function () {
       var billing = {
         customerFirstName: 'bob',
         customerLastName: 'leponge',
-        email: 'bob@eponge.com'
+        customerEmail: 'bob@eponge.com'
       };
 
       var options = {
@@ -397,7 +397,7 @@ describe('AuthorizeNet service', function () {
       var billing = {
         customerFirstName: 'bob',
         customerLastName: 'leponge',
-        email: 'bob@eponge.com'
+        customerEmail: 'bob@eponge.com'
       };
 
       service.createCustomerProfile(cc, billing)
@@ -426,7 +426,7 @@ describe('AuthorizeNet service', function () {
       var billing = {
         customerFirstName: 'bob',
         customerLastName: 'leponge',
-        email: random + 'bob@eponge.com'
+        customerEmail: random + 'bob@eponge.com'
       };
 
       var profId;
@@ -466,7 +466,7 @@ describe('AuthorizeNet service', function () {
       var billing = {
         customerFirstName: 'bob',
         customerLastName: 'leponge',
-        email: random + 'bob@eponge.com'
+        customerEmail: random + 'bob@eponge.com'
       };
 
       var options = {
