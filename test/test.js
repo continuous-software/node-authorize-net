@@ -150,7 +150,7 @@ describe('AuthorizeNet service', function () {
     });
   });
 
-  xdescribe('get settled transactions List', function () {
+  describe('get settled transactions List', function () {
 
     it('should get a detailed list of transactions for a given window of time', function (done) {
       service.getSettledBatchList(new Date(Date.now() - 7 * 1000 * 3600 * 24))
