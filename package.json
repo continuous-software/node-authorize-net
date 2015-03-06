@@ -28,6 +28,11 @@
   },
   "devDependencies": {
     "42-cent-model": "^1.0.0",
-    "mocha": "^1.21.4"
+    "mocha": "^1.21.4",
+    "gulp": "~3.8.11",
+    "gulp-jshint": "~1.9.2",
+    "gulp-concat": "~2.5.2",
+    "gulp-rename": "~1.2.0",
+    "gulp-mocha": "~2.0.0"
   }
 }
