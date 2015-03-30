@@ -23,7 +23,7 @@
     "42-cent-util": "^1.0.0",
     "bluebird": "^2.3.11",
     "json2xml": "^0.1.1",
-    "request": "^2.47.0",
+    "request": "2.53.0",
     "xml2json": "^0.6.0"
   },
   "devDependencies": {
