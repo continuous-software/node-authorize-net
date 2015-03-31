@@ -443,7 +443,7 @@ describe('AuthorizeNet service', function () {
           return service.getCustomerProfile(result.profileId);
         })
         .then(function (res) {
-          assert.equal(res._original.profile.customerProfileId, profId);
+          assert.equal(res._original.profile[0].customerProfileId[0], profId);
           done();
         });
     });
@@ -482,7 +482,7 @@ describe('AuthorizeNet service', function () {
           return service.chargeCustomer({amount: randomAmount}, {profileId: result.profileId});
         })
         .then(function (res) {
-          assert.equal(res.transactionId, res._original.transId);
+          assert.equal(res.transactionId, res._original.transId[0]);
           assert(res._original, '_original should be defined');
           done();
         })
