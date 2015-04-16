@@ -209,6 +209,26 @@ describe('AuthorizeNet service', function () {
 
     });
 
+    xit('should support partial refund', function (done) {
+      var transId;
+
+      service.getSettledBatchList(new Date(Date.now() - 30 * 24 * 3600 * 1000), new Date())
+        .then(function (response) {
+          var batchId = response[0].batchId;
+          return service.getTransactionList(batchId);
+        })
+        .then(function (response) {
+          transId = response[0].transaction[0].transId;
+          return service.refundTransaction(transId, {expirationMonth: '01', expirationYear: '17', amount:2.00});
+        })
+        .then(function (resp) {
+          assert(resp._original.transactionResponse.refTransId == transId, '_original should be defined');
+          done();
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
+    });
 
     it('should reject the promise if the gateway return error', function (done) {
 
