@@ -1,6 +1,6 @@
 {
   "name": "authorize-net",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "Node.js SDK for Authorize.net paymenet gateway.",
   "main": "index.js",
   "scripts": {
@@ -22,9 +22,8 @@
     "42-cent-base": "^0.8.0",
     "42-cent-util": "^1.0.0",
     "bluebird": "^2.3.11",
-    "json2xml": "^0.1.1",
-    "request": "^2.47.0",
-    "xml2json": "^0.5.1"
+    "request": "2.53.0",
+    "xml2js": "^0.4.6"
   },
   "devDependencies": {
     "42-cent-model": "^1.0.0",

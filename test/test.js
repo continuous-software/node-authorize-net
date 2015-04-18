@@ -209,6 +209,26 @@ describe('AuthorizeNet service', function () {
 
     });
 
+    xit('should support partial refund', function (done) {
+      var transId;
+
+      service.getSettledBatchList(new Date(Date.now() - 30 * 24 * 3600 * 1000), new Date())
+        .then(function (response) {
+          var batchId = response[0].batchId;
+          return service.getTransactionList(batchId);
+        })
+        .then(function (response) {
+          transId = response[0].transaction[0].transId;
+          return service.refundTransaction(transId, {expirationMonth: '01', expirationYear: '17', amount:2.00});
+        })
+        .then(function (resp) {
+          assert(resp._original.transactionResponse.refTransId == transId, '_original should be defined');
+          done();
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
+    });
 
     it('should reject the promise if the gateway return error', function (done) {
 
@@ -362,7 +382,7 @@ describe('AuthorizeNet service', function () {
       var cc = new CreditCard()
         .withCreditCardNumber('4111111111111111')
         .withExpirationMonth('12')
-        .withExpirationYear('2014')
+        .withExpirationYear('2017')
         .withCvv('123');
 
       var billing = {
@@ -391,7 +411,7 @@ describe('AuthorizeNet service', function () {
       var cc = new CreditCard()
         .withCreditCardNumber('4111111111111111')
         .withExpirationMonth('12')
-        .withExpirationYear('2014')
+        .withExpirationYear('2017')
         .withCvv('123');
 
       var billing = {
@@ -420,7 +440,7 @@ describe('AuthorizeNet service', function () {
       var cc = new CreditCard()
         .withCreditCardNumber('4111111111111111')
         .withExpirationMonth('12')
-        .withExpirationYear('2014')
+        .withExpirationYear('2017')
         .withCvv('123');
 
       var billing = {
@@ -443,7 +463,7 @@ describe('AuthorizeNet service', function () {
           return service.getCustomerProfile(result.profileId);
         })
         .then(function (res) {
-          assert.equal(res._original.profile.customerProfileId, profId);
+          assert.equal(res._original.profile[0].customerProfileId[0], profId);
           done();
         });
     });
@@ -452,7 +472,7 @@ describe('AuthorizeNet service', function () {
   describe('charge customer profile', function () {
 
 
-    it('should charge a existing customer', function (done) {
+      it('should charge a existing customer', function (done) {
 
       var random = Math.floor(Math.random() * 1000);
 
@@ -460,7 +480,7 @@ describe('AuthorizeNet service', function () {
       var cc = new CreditCard()
         .withCreditCardNumber('4111111111111111')
         .withExpirationMonth('12')
-        .withExpirationYear('2014')
+        .withExpirationYear('2017')
         .withCvv('123');
 
       var billing = {
@@ -482,7 +502,7 @@ describe('AuthorizeNet service', function () {
           return service.chargeCustomer({amount: randomAmount}, {profileId: result.profileId});
         })
         .then(function (res) {
-          assert.equal(res.transactionId, res._original.transId);
+          assert.equal(res.transactionId, res._original.transId[0]);
           assert(res._original, '_original should be defined');
           done();
         })
