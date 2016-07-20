@@ -22,7 +22,7 @@
     "42-cent-base": "^0.8.0",
     "42-cent-util": "^1.0.0",
     "bluebird": "^2.3.11",
-    "request": "2.53.0",
+    "request": "2.73.0",
     "xml2js": "^0.4.6"
   },
   "devDependencies": {
