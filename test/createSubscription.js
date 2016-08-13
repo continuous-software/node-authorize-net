@@ -8,8 +8,9 @@ var casual = require('casual');
 var GatewayError = require('42-cent-base').GatewayError;
 
 //to avoid duplicate transaction we change the amount
-function randomAmount(max) {
-  return Math.ceil(Math.random() * (max || 300));
+function randomAmount(max, min) {
+  min = min || 0.01;
+  return (Math.random() * ((max || 300) - min) + min).toFixed(2);
 }
 
 describe('create subscription', function () {
