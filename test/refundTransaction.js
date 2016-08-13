@@ -12,10 +12,10 @@ describe('refund transaction', function () {
     service = AuthorizeGateway(conf);
   });
 
-  xit('should refund an already settled transaction', function (done) {
+  xit('should refund an already settled transaction', function () {
     var transId;
 
-    service.getSettledBatchList(new Date(Date.now() - 30 * 24 * 3600 * 1000), new Date())
+    return service.getSettledBatchList(new Date(Date.now() - 30 * 24 * 3600 * 1000), new Date())
       .then(function (response) {
         var batchId = response[0].batchId;
         return service.getTransactionList(batchId);
@@ -26,18 +26,13 @@ describe('refund transaction', function () {
       })
       .then(function (resp) {
         assert(resp._original.transactionResponse.refTransId == transId, '_original should be defined');
-        done();
-      })
-      .catch(function (err) {
-        console.log(err);
       });
-
   });
 
-  xit('should support partial refund', function (done) {
+  xit('should support partial refund', function () {
     var transId;
 
-    service.getSettledBatchList(new Date(Date.now() - 30 * 24 * 3600 * 1000), new Date())
+    return service.getSettledBatchList(new Date(Date.now() - 30 * 24 * 3600 * 1000), new Date())
       .then(function (response) {
         var batchId = response[0].batchId;
         return service.getTransactionList(batchId);
@@ -48,24 +43,20 @@ describe('refund transaction', function () {
       })
       .then(function (resp) {
         assert(resp._original.transactionResponse.refTransId == transId, '_original should be defined');
-        done();
-      })
-      .catch(function (err) {
-        console.log(err);
       });
   });
 
-  it('should reject the promise if the gateway return error', function (done) {
+  it('should reject the promise if the gateway return error', function () {
     var cc = new CreditCard()
       .withExpirationMonth('01')
       .withExpirationYear('17');
 
     return service.refundTransaction(666, cc)
       .then(function () {
-        throw new Error('it should not get here');
-      }, function (err) {
+        throw new Error('Was not rejected.');
+      })
+      .catch(function (err) {
         assert(err instanceof GatewayError, 'should be an instance of GatewayError');
-        done();
       });
   });
 

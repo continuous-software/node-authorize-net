@@ -16,8 +16,7 @@ describe('void transaction', function () {
     service = AuthorizeGateway(conf);
   });
 
-  it('should submit transaction request', function (done) {
-
+  it('should submit transaction request', function () {
     var cc = new CreditCard()
       .withCreditCardNumber('4012888818888')
       .withExpirationMonth('1')
@@ -25,27 +24,24 @@ describe('void transaction', function () {
       .withCvv2('666');
 
     var transId;
-    service.submitTransaction({amount: randomAmount()}, cc).then(function (result) {
-      transId = result.transactionId;
-      return service.voidTransaction(transId);
-    })
+    return service.submitTransaction({amount: randomAmount()}, cc)
+      .then(function (result) {
+        transId = result.transactionId;
+        return service.voidTransaction(transId);
+      })
       .then(function (result) {
         assert(result._original, 'original should be defined');
-        done();
-      })
-      .catch(function (err) {
-        console.log(err);
       });
   });
 
-  it('should reject a promise if gateway return errored message', function (done) {
-    service.voidTransaction(666)
+  it('should reject a promise if gateway return errored message', function () {
+    return service.voidTransaction(666)
       .then(function (err) {
-        throw new Error('should not get here');
-      }, function (err) {
+        throw new Error('Was not rejected.');
+      })
+      .catch(function (err) {
         assert(err._original, '_original should be defined');
         assert(err.message === 'The transaction cannot be found.', 'should have the proper error message');
-        done();
       });
   });
 

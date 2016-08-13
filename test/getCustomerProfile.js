@@ -13,7 +13,7 @@ describe('get customer info', function () {
     service = AuthorizeGateway(conf);
   });
 
-  it('should get the info related to a customer', function (done) {
+  it('should get the info related to a customer', function () {
     var cc = new CreditCard()
       .withCreditCardNumber('4111111111111111')
       .withExpirationMonth('12')
@@ -43,7 +43,7 @@ describe('get customer info', function () {
       description: 'TEST at: ' + Date.now()
     };
 
-    service.createCustomerProfile(cc, prospect, prospect, options)
+    return service.createCustomerProfile(cc, prospect, prospect, options)
       .then(function (result) {
         profId = result.profileId;
         assert(profId, ' profileId Should be defined');
@@ -52,7 +52,6 @@ describe('get customer info', function () {
       })
       .then(function (res) {
         assert.equal(res._original.profile[0].customerProfileId[0], profId);
-        done();
       });
   });
 

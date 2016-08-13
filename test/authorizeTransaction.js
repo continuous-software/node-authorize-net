@@ -20,7 +20,7 @@ describe('authorize only', function () {
     service = AuthorizeGateway(conf);
   });
 
-  it('should submit transaction request', function (done) {
+  it('should submit transaction request', function () {
     var cc = new CreditCard()
       .withCreditCardNumber('4012888818888')
       .withExpirationYear(2017)
@@ -30,16 +30,13 @@ describe('authorize only', function () {
     var order = new Order()
       .withAmount(randomAmount());
 
-    service.authorizeTransaction(order, cc).then(function (result) {
+    return service.authorizeTransaction(order, cc).then(function (result) {
       assert.equal(result.authCode, result._original.authCode);
       assert.equal(result.transactionId, result._original.transId);
-      done();
-    }).catch(function (err) {
-      done(err)
     });
   });
 
-  it('should support prospect avs fields', function (done) {
+  it('should support prospect avs fields', function () {
     var cc = new CreditCard()
       .withCreditCardNumber('4012888818888')
       .withExpirationYear(2017)
@@ -65,14 +62,13 @@ describe('authorize only', function () {
     var order = new Order()
       .withAmount(randomAmount());
 
-    service.authorizeTransaction(order, cc, prospect).then(function (result) {
+    return service.authorizeTransaction(order, cc, prospect).then(function (result) {
       assert.equal(result.authCode, result._original.authCode);
       assert.equal(result.transactionId, result._original.transId);
-      done();
     });
   });
 
-  it('should reject the promise when web service send an error code', function (done) {
+  it('should reject the promise when web service send an error code', function () {
     var cc = new CreditCard()
       .withCreditCardNumber('234234')
       .withExpirationMonth('10')
@@ -82,14 +78,14 @@ describe('authorize only', function () {
     var order = new Order()
       .withAmount(randomAmount());
 
-    service.authorizeTransaction(order, cc).then(function () {
-      done(new Error('should not get here'));
-    }, function (rejection) {
-      assert(rejection instanceof GatewayError, 'should be an instance of GatewayError');
-      assert.equal(rejection.message, 'The credit card number is invalid.');
-      assert(rejection._original, 'original should be defined');
-      done();
-    });
+    return service.authorizeTransaction(order, cc).then(function () {
+        throw new Error('Was not rejected.');
+      })
+      .catch(function (rejection) {
+        assert(rejection instanceof GatewayError, 'should be an instance of GatewayError');
+        assert.equal(rejection.message, 'The credit card number is invalid.');
+        assert(rejection._original, 'original should be defined');
+      });
   });
 
 });

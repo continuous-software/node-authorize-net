@@ -14,7 +14,7 @@ describe('create customer profile', function () {
     service = AuthorizeGateway(conf);
   });
 
-  it('should create a customer profile', function (done) {
+  it('should create a customer profile', function () {
     var cc = new CreditCard()
       .withCreditCardNumber('4111111111111111')
       .withExpirationMonth('12')
@@ -43,18 +43,14 @@ describe('create customer profile', function () {
       description: 'TEST at: ' + Date.now()
     };
 
-    service.createCustomerProfile(cc, prospect, prospect, options)
+    return service.createCustomerProfile(cc, prospect, prospect, options)
       .then(function (result) {
         assert(result.profileId, ' profileId Should be defined');
         assert(result._original, '_original should be defined');
-        done();
-      })
-      .catch(function (err) {
-        console.log(err);
       });
   });
 
-  it('should reject the promise when the gateway return an error', function (done) {
+  it('should reject the promise when the gateway return an error', function () {
     var cc = new CreditCard()
       .withCreditCardNumber('2323455')
       .withExpirationMonth('12')
@@ -78,14 +74,14 @@ describe('create customer profile', function () {
       .withShippingState(casual.state)
       .withShippingCountry(casual.country_code);
 
-    service.createCustomerProfile(cc, prospect)
-      .then(function (result) {
-        throw new Error('it should not get here');
-      }, function (err) {
+    return service.createCustomerProfile(cc, prospect)
+      .then(function () {
+        throw new Error('Was not rejected.');
+      })
+      .catch(function (err) {
         assert(err instanceof GatewayError);
         assert(err._original, '_original should be defined');
         assert(err.message.indexOf('- The field length is invalid for Card Number.') != -1);
-        done();
       });
   });
 

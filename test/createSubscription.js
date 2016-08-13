@@ -5,6 +5,7 @@ var SubscriptionPlan = require('42-cent-model').SubscriptionPlan;
 var CreditCard = require('42-cent-model').CreditCard;
 var Prospect = require('42-cent-model').Prospect;
 var casual = require('casual');
+var GatewayError = require('42-cent-base').GatewayError;
 
 //to avoid duplicate transaction we change the amount
 function randomAmount(max) {
@@ -19,7 +20,7 @@ describe('create subscription', function () {
     service = AuthorizeGateway(conf);
   });
 
-  it('should create a subscription', function (done) {
+  it('should create a subscription', function () {
     var subscription = new SubscriptionPlan({
       amount: randomAmount(100),
       trialCount: 1,
@@ -40,18 +41,14 @@ describe('create subscription', function () {
       .withBillingFirstName('bob')
       .withBillingLastName('leponge');
 
-    service.createSubscription(creditCard, prospect, subscription)
+    return service.createSubscription(creditCard, prospect, subscription)
       .then(function (res) {
         assert(res.subscriptionId, 'subscriptionId should be defined');
         assert(res._original, 'original should be defined');
-        done();
-      })
-      .catch(function (err) {
-        console.log(err);
       });
   });
 
-  it('should create a subscription without trial period', function (done) {
+  it('should create a subscription without trial period', function () {
     var subscription = new SubscriptionPlan({
       amount: randomAmount(100)
     })
@@ -82,18 +79,14 @@ describe('create subscription', function () {
       .withShippingState(casual.state)
       .withShippingCountry(casual.country_code);
 
-    service.createSubscription(creditCard, prospect, subscription)
+    return service.createSubscription(creditCard, prospect, subscription)
       .then(function (res) {
         assert(res.subscriptionId, 'subscriptionId should be defined');
         assert(res._original, 'original should be defined');
-        done();
-      })
-      .catch(function (err) {
-        console.log(err);
       });
   });
 
-  it('should reject the promise', function (done) {
+  it('should reject the promise', function () {
     var subscription = new SubscriptionPlan({amount: randomAmount(100) })
       .withIterationCount('12')
       .withPeriodLength(1)
@@ -122,17 +115,13 @@ describe('create subscription', function () {
       .withShippingState(casual.state)
       .withShippingCountry(casual.country_code);
 
-    service.createSubscription(creditCard, prospect, subscription)
-      .then(function (res) {
-        throw new Error('it should not get here');
-      }, function (err) {
-
-        assert(err.message, '- The credit card has expired.- Credit Card expires before the start of the subscription.');
-        assert(err._original, '_original should be defined');
-        done();
+    return service.createSubscription(creditCard, prospect, subscription)
+      .then(function () {
+        throw new Error('Was not rejected.');
       })
       .catch(function (err) {
-        console.log(err);
+        assert(err.message, '- The credit card has expired.- Credit Card expires before the start of the subscription.');
+        assert(err._original, '_original should be defined');
       });
   });
 
