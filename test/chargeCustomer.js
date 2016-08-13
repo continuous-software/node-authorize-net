@@ -48,14 +48,14 @@ describe('charge customer profile', function () {
 
     return service.createCustomerProfile(cc, prospect, prospect, options)
       .then(function (result) {
-        assert(result.profileId, ' profileId Should be defined');
-        assert(result._original, '_original should be defined');
+        assert.ok(result.profileId, 'profileId should be defined');
+        assert.ok(result._original, '_original should be defined');
 
         return service.chargeCustomer({amount: randomAmount()}, {profileId: result.profileId});
       })
-      .then(function (res) {
-        assert.equal(res.transactionId, res._original.transId[0]);
-        assert(res._original, '_original should be defined');
+      .then(function (result) {
+        assert.equal(result.transactionId, result._original.transId[0]);
+        assert.ok(result._original, '_original should be defined');
       });
   });
 
@@ -65,7 +65,7 @@ describe('charge customer profile', function () {
         throw new Error('Was not rejected.');
       })
       .catch(function (err) {
-        assert(err._original, '_original should be defined');
+        assert.ok(err._original, '_original should be defined');
         assert.equal(err.message, '- The record cannot be found.');
       });
   });

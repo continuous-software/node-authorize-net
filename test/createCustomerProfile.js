@@ -45,8 +45,8 @@ describe('create customer profile', function () {
 
     return service.createCustomerProfile(cc, prospect, prospect, options)
       .then(function (result) {
-        assert(result.profileId, ' profileId Should be defined');
-        assert(result._original, '_original should be defined');
+        assert.ok(result.profileId, 'profileId should be defined');
+        assert.ok(result._original, '_original should be defined');
       });
   });
 
@@ -79,9 +79,9 @@ describe('create customer profile', function () {
         throw new Error('Was not rejected.');
       })
       .catch(function (err) {
-        assert(err instanceof GatewayError);
-        assert(err._original, '_original should be defined');
-        assert(err.message.indexOf('- The field length is invalid for Card Number.') != -1);
+        assert.ok(err instanceof GatewayError, 'expected instance of GatewayError');
+        assert.ok(err._original, '_original should be defined');
+        assert.ok(err.message.indexOf('- The field length is invalid for Card Number.') != -1);
       });
   });
 

@@ -30,7 +30,7 @@ describe('void transaction', function () {
         return service.voidTransaction(transId);
       })
       .then(function (result) {
-        assert(result._original, 'original should be defined');
+        assert.ok(result._original, '_original should be defined');
       });
   });
 
@@ -40,8 +40,8 @@ describe('void transaction', function () {
         throw new Error('Was not rejected.');
       })
       .catch(function (err) {
-        assert(err._original, '_original should be defined');
-        assert(err.message === 'The transaction cannot be found.', 'should have the proper error message');
+        assert.ok(err._original, '_original should be defined');
+        assert.strictEqual(err.message, 'The transaction cannot be found.', 'should have the proper error message');
       });
   });
 

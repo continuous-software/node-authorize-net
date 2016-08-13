@@ -42,9 +42,9 @@ describe('create subscription', function () {
       .withBillingLastName('leponge');
 
     return service.createSubscription(creditCard, prospect, subscription)
-      .then(function (res) {
-        assert(res.subscriptionId, 'subscriptionId should be defined');
-        assert(res._original, 'original should be defined');
+      .then(function (result) {
+        assert.ok(result.subscriptionId, 'subscriptionId should be defined');
+        assert.ok(result._original, '_original should be defined');
       });
   });
 
@@ -80,9 +80,9 @@ describe('create subscription', function () {
       .withShippingCountry(casual.country_code);
 
     return service.createSubscription(creditCard, prospect, subscription)
-      .then(function (res) {
-        assert(res.subscriptionId, 'subscriptionId should be defined');
-        assert(res._original, 'original should be defined');
+      .then(function (result) {
+        assert.ok(result.subscriptionId, 'subscriptionId should be defined');
+        assert.ok(result._original, '_original should be defined');
       });
   });
 
@@ -120,8 +120,8 @@ describe('create subscription', function () {
         throw new Error('Was not rejected.');
       })
       .catch(function (err) {
-        assert(err.message, '- The credit card has expired.- Credit Card expires before the start of the subscription.');
-        assert(err._original, '_original should be defined');
+        assert.equal(err.message, '- The credit card has expired.- Credit Card expires before the start of the subscription.');
+        assert.ok(err._original, '_original should be defined');
       });
   });
 

@@ -46,12 +46,12 @@ describe('get customer info', function () {
     return service.createCustomerProfile(cc, prospect, prospect, options)
       .then(function (result) {
         profId = result.profileId;
-        assert(profId, ' profileId Should be defined');
-        assert(result._original, '_original should be defined');
+        assert.ok(profId, 'profileId should be defined');
+        assert.ok(result._original, '_original should be defined');
         return service.getCustomerProfile(result.profileId);
       })
-      .then(function (res) {
-        assert.equal(res._original.profile[0].customerProfileId[0], profId);
+      .then(function (result) {
+        assert.equal(result._original.profile[0].customerProfileId[0], profId);
       });
   });
 

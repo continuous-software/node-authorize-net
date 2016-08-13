@@ -24,8 +24,9 @@ describe('refund transaction', function () {
         transId = response[0].transaction[0].transId;
         return service.refundTransaction(transId, {expirationMonth: '01', expirationYear: '17'});
       })
-      .then(function (resp) {
-        assert(resp._original.transactionResponse.refTransId == transId, '_original should be defined');
+      .then(function (result) {
+        assert.ok(result._original, '_original should be defined');
+        assert.strictEqual(result._original.transactionResponse.refTransId, transId, 'transaction id does not match');
       });
   });
 
@@ -41,8 +42,9 @@ describe('refund transaction', function () {
         transId = response[0].transaction[0].transId;
         return service.refundTransaction(transId, {expirationMonth: '01', expirationYear: '17', amount: 2.00});
       })
-      .then(function (resp) {
-        assert(resp._original.transactionResponse.refTransId == transId, '_original should be defined');
+      .then(function (result) {
+        assert.ok(result._original, '_original should be defined');
+        assert.strictEqual(result._original.transactionResponse.refTransId, transId, 'transaction id does not match');
       });
   });
 
@@ -56,7 +58,7 @@ describe('refund transaction', function () {
         throw new Error('Was not rejected.');
       })
       .catch(function (err) {
-        assert(err instanceof GatewayError, 'should be an instance of GatewayError');
+        assert.ok(err instanceof GatewayError, 'expected instance of GatewayError');
       });
   });
 

@@ -81,10 +81,10 @@ describe('authorize only', function () {
     return service.authorizeTransaction(order, cc).then(function () {
         throw new Error('Was not rejected.');
       })
-      .catch(function (rejection) {
-        assert(rejection instanceof GatewayError, 'should be an instance of GatewayError');
-        assert.equal(rejection.message, 'The credit card number is invalid.');
-        assert(rejection._original, 'original should be defined');
+      .catch(function (err) {
+        assert.ok(err instanceof GatewayError, 'expected instance of GatewayError');
+        assert.equal(err.message, 'The credit card number is invalid.');
+        assert.ok(err._original, '_original should be defined');
       });
   });
 
