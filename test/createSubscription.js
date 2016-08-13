@@ -38,8 +38,8 @@ describe('create subscription', function () {
       .withExpirationYear('2018');
 
     var prospect = new Prospect()
-      .withBillingFirstName('bob')
-      .withBillingLastName('leponge');
+      .withBillingFirstName(casual.first_name)
+      .withBillingLastName(casual.first_name);
 
     return service.createSubscription(creditCard, prospect, subscription)
       .then(function (result) {
