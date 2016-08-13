@@ -2,12 +2,7 @@ var conf = require('../config.js');
 var assert = require('assert');
 var AuthorizeGateway = require('../index.js');
 var CreditCard = require('42-cent-model').CreditCard;
-
-//to avoid duplicate transaction we change the amount
-function randomAmount(max, min) {
-  min = min || 0.01;
-  return (Math.random() * ((max || 300) - min) + min).toFixed(2);
-}
+var randomAmount = require('./fixtures/utils.js').randomAmount;
 
 describe('void transaction', function () {
   var service;

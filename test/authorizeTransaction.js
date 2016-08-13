@@ -6,13 +6,7 @@ var CreditCard = require('42-cent-model').CreditCard;
 var Prospect = require('42-cent-model').Prospect;
 var Order = require('42-cent-model').Order;
 var casual = require('casual');
-
-//to avoid duplicate transaction we change the amount
-function randomAmount(max, min) {
-  min = min || 0.01;
-  return (Math.random() * ((max || 300) - min) + min).toFixed(2);
-}
-
+var randomAmount = require('./fixtures/utils.js').randomAmount;
 
 describe('authorize only', function () {
   var service;
