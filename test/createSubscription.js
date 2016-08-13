@@ -120,7 +120,9 @@ describe('create subscription', function () {
         throw new Error('Was not rejected.');
       })
       .catch(function (err) {
-        assert.equal(err.message, '- The credit card has expired.- Credit Card expires before the start of the subscription.');
+        const EXPIRED_ERROR = 'The credit card has expired';
+        const EXPIRES_BEFORE_SUBSCRIPTION = 'Credit Card expires before the start of the subscription';
+        assert.ok(~err.message.indexOf(EXPIRED_ERROR) || ~err.message.indexOf(EXPIRES_BEFORE_SUBSCRIPTION));
         assert.ok(err._original, '_original should be defined');
       });
   });
