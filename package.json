@@ -4,7 +4,7 @@
   "description": "Node.js SDK for Authorize.net paymenet gateway.",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV='test' node ./node_modules/.bin/mocha ./test/ -R spec -t 5000"
+    "test": "NODE_ENV='test' mocha -R spec -t 5000"
   },
   "repository": {
     "type": "git",
