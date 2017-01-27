@@ -61,6 +61,37 @@ describe('authorizationCapture', function () {
     });
   });
 
+  it('should fail the transaction when declined', function () {
+    var cc = new CreditCard()
+      .withCreditCardNumber('4111111111111111')
+      .withExpirationYear('2017')
+      .withExpirationMonth('1')
+      .withCvv2('666');
+
+    var prospect = new Prospect()
+      .withBillingLastName(casual.last_name)
+      .withBillingFirstName(casual.first_name)
+      .withBillingAddress1(casual.address)
+      .withBillingCity(casual.city)
+      .withBillingPostalCode(46282)
+      .withBillingState(casual.state)
+      .withBillingCountry(casual.country_code)
+      .withShippingLastName(casual.last_name)
+      .withShippingFirstName(casual.first_name)
+      .withShippingAddress1(casual.address)
+      .withShippingCity(casual.city)
+      .withShippingPostalCode(46282)
+      .withShippingState(casual.state)
+      .withShippingCountry(casual.country_code);
+
+    return service.submitTransaction({amount: randomAmount()}, cc, prospect).then(function (result) {
+      throw new Error('Was not rejected.');
+    }).catch(function (err) {
+      assert.ok(err instanceof GatewayError, 'expected instance of GatewayError');
+      assert.ok(err._original, '_original should be defined');
+    });
+  });
+
   it('should reject the promise when web service send an error code', function () {
     var cc = new CreditCard()
       .withCreditCardNumber('234234')
