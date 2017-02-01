@@ -19,7 +19,7 @@ describe('authorize only', function () {
   it('should submit transaction request', function () {
     var cc = new CreditCard()
       .withCreditCardNumber('4012888818888')
-      .withExpirationYear(2017)
+      .withExpirationYear(2019)
       .withExpirationMonth('1')
       .withCvv2('666');
 
@@ -35,7 +35,7 @@ describe('authorize only', function () {
   it('should support prospect avs fields', function () {
     var cc = new CreditCard()
       .withCreditCardNumber('4012888818888')
-      .withExpirationYear(2017)
+      .withExpirationYear(2019)
       .withExpirationMonth('1')
       .withCvv2('666');
 

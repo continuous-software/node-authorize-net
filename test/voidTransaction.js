@@ -16,7 +16,7 @@ describe('void transaction', function () {
     var cc = new CreditCard()
       .withCreditCardNumber('4012888818888')
       .withExpirationMonth('1')
-      .withExpirationYear(2017)
+      .withExpirationYear(2019)
       .withCvv2('666');
 
     var transId;

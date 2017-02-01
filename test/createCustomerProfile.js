@@ -18,7 +18,7 @@ describe('create customer profile', function () {
     var cc = new CreditCard()
       .withCreditCardNumber('4111111111111111')
       .withExpirationMonth('12')
-      .withExpirationYear('2017')
+      .withExpirationYear('2019')
       .withCvv2('123');
 
     var prospect = new Prospect()
@@ -54,7 +54,7 @@ describe('create customer profile', function () {
     var cc = new CreditCard()
       .withCreditCardNumber('2323455')
       .withExpirationMonth('12')
-      .withExpirationYear('2017')
+      .withExpirationYear('2019')
       .withCvv2('123');
 
     var prospect = new Prospect()

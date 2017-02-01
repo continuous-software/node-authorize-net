@@ -51,7 +51,7 @@ describe('refund transaction', function () {
   it('should reject the promise if the gateway return error', function () {
     var cc = new CreditCard()
       .withExpirationMonth('01')
-      .withExpirationYear('17');
+      .withExpirationYear('19');
 
     return service.refundTransaction(666, cc)
       .then(function () {
