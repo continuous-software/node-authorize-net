@@ -1,6 +1,6 @@
 {
   "name": "authorize-net",
-  "version": "1.0.10",
+  "version": "1.1.0",
   "description": "Node.js SDK for Authorize.net paymenet gateway.",
   "main": "index.js",
   "scripts": {
