@@ -31,7 +31,7 @@ describe('create subscription', function () {
       .withCreditCardNumber('4111111111111111')
       .withCvv2('123')
       .withExpirationMonth('01')
-      .withExpirationYear('2018');
+      .withExpirationYear('2020');
 
     var prospect = new Prospect()
       .withBillingFirstName(casual.first_name)
@@ -57,7 +57,7 @@ describe('create subscription', function () {
       .withCreditCardNumber('4111111111111111')
       .withCvv2('123')
       .withExpirationMonth('01')
-      .withExpirationYear('2018');
+      .withExpirationYear('2020');
 
     var prospect = new Prospect()
       .withBillingLastName(casual.last_name)
