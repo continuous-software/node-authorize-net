@@ -19,15 +19,15 @@
   "author": "Laurent Renard <laurent@continuous.in.th>",
   "license": "MIT",
   "dependencies": {
-    "42-cent-base": "^0.8.0",
+    "42-cent-base": "^1.0.0",
     "42-cent-util": "^1.0.0",
-    "bluebird": "^2.3.11",
-    "request": "2.83.0",
+    "bluebird": "^3.5.1",
+    "request": "2.85.0",
     "xml2js": "^0.4.6"
   },
   "devDependencies": {
     "42-cent-model": "^2.0.0",
-    "casual": "1.4.7",
-    "mocha": "^2.5.3"
+    "casual": "1.5.19",
+    "mocha": "^5.1.1"
   }
 }
