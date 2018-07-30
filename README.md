@@ -1,10 +1,8 @@
-[![build status](https://travis-ci.org/continuous-software/node-authorize-net.svg?branch=master)](https://travis-ci.org/continuous-software/node-authorize-net)
+[![build status](https://travis-ci.org/continuous-software/node-authorize-net.svg?branch=master)](https://travis-ci.org/continuous-software/node-authorize-net) [![Greenkeeper badge](https://badges.greenkeeper.io/continuous-software/node-authorize-net.svg)](https://greenkeeper.io/)
 
 ![node-authorize-net](http://www.merchantbottomline.com/images/authorizenet.png)
 
 ## Installation
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/continuous-software/node-authorize-net.svg)](https://greenkeeper.io/)
 
     $ npm install -s authorize-net
 
