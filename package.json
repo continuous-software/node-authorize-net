@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "42-cent-model": "^2.0.0",
-    "casual": "1.5.19",
+    "casual": "1.6.0",
     "mocha": "^5.1.1"
   }
 }
