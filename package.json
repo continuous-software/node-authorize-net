@@ -19,7 +19,7 @@
   "author": "Laurent Renard <laurent@continuous.in.th>",
   "license": "MIT",
   "dependencies": {
-    "42-cent-base": "^1.0.0",
+    "42-cent-base": "1.0.0",
     "42-cent-util": "^1.0.0",
     "bluebird": "^3.5.1",
     "request": "2.86.0",
